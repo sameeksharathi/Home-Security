@@ -6,7 +6,7 @@ import face_recognition
 import argparse
 from pygame import mixer
 
-face_detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+face_detector = cv2.CascadeClassifier('Files/haarcascade_frontalface_default.xml')
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 
 
@@ -51,7 +51,7 @@ def Dataset():
 
 
 def getImagesAndLabels(path):
-    path = 'dataset'
+    path = 'dataset/'
     imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
     faceSamples = []
     ids = []
@@ -100,8 +100,9 @@ def Face_Recognition():
     for imagePath in imagePaths:
         # PIL_img = Image.open(imagePath).convert('L')  # convert it to grayscale
         # img_numpy = np.array(PIL_img, 'uint8')
-
+        # print(imagePath)
         temp_img = face_recognition.load_image_file(imagePath)
+        print(face_recognition.face_encodings(temp_img))
         temp_face_encoding = face_recognition.face_encodings(temp_img)[0]
         known_face_encodings.append(temp_face_encoding)
         id1 = os.path.split(imagePath)[-1].split(".")[0]
@@ -152,11 +153,11 @@ def Face_Recognition():
                     name = known_face_names[best_match_index]
                     if name == "Unknown":
                         mixer.init()
-                        mixer.music.load("taunt.wav")
+                        mixer.music.load("Alarms/taunt.wav")
                         mixer.music.play()
                     if name != "Unknown":
                         mixer.init()
-                        mixer.music.load("alarm.wav")
+                        mixer.music.load("Alarms/alarm.wav")
                         mixer.music.play()
 
                 face_names.append(name)
@@ -197,7 +198,7 @@ args, unknown = parser.parse_known_args()
 
 # Load yolo
 def load_yolo():
-    net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")
+    net = cv2.dnn.readNet("Files/yolov3.weights", "Files/yolov3.cfg")
     classes = []
     with open("Files/obj.names", "r") as f:
         classes = [line.strip() for line in f.readlines()]
@@ -249,28 +250,28 @@ def draw_labels(boxes, confs, colors, class_ids, classes, img):
             cv2.putText(img, label, (x, y - 5), font, 1, color, 1)
             if label == 'Fire':
                 mixer.init()
-                mixer.music.load("alarm.wav")
+                mixer.music.load("Alarms/alarm.wav")
                 mixer.music.play()
 
             elif label == 'Rifle':
                 mixer.init()
-                mixer.music.load("taunt.wav")
+                mixer.music.load("Alarms/taunt.wav")
                 mixer.music.play()
 
             elif label == 'Gun':
                 mixer.init()
-                mixer.music.load("CantinaBand60.wav")
+                mixer.music.load("Alarms/CantinaBand60.wav")
                 mixer.music.play()
 
     img = cv2.resize(img, (800, 600))
 
 
 print('---- Starting Web Cam Home Security ----')
-ans = input("Do You want to add new face [y/n]:")
+ans = input("Do you want to add new face [y/n]: \n")
 if ans.lower() == 'y':
     Dataset()
-    faces, ids = getImagesAndLabels('dataset')
-    ans1 = input("Do you want to recognise face now [y/n]:")
+    faces, ids = getImagesAndLabels('dataset/')
+    ans1 = input("Do you want to check if your face is saved or not? [y/n]: \n")
     if ans1.lower() == 'y':
         Face_Recognition()
 else:

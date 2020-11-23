@@ -9,9 +9,9 @@ args, unknown = parser.parse_known_args()
 
 # Load yolo
 def load_yolo():
-    net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")
+    net = cv2.dnn.readNet("Files/yolov3.weights", "Files/yolov3.cfg")
     classes = []
-    with open("../Files/obj.names", "r") as f:
+    with open("Files/obj.names", "r") as f:
         classes = [line.strip() for line in f.readlines()]
 
     layers_names = net.getLayerNames()
@@ -61,17 +61,17 @@ def draw_labels(boxes, confs, colors, class_ids, classes, img):
             cv2.putText(img, label, (x, y - 5), font, 1, color, 1)
             if label == 'Fire':
                 mixer.init()
-                mixer.music.load("alarm.wav")
+                mixer.music.load("Alarms/alarm.wav")
                 mixer.music.play()
 
             elif label == 'Rifle':
                 mixer.init()
-                mixer.music.load("taunt.wav")
+                mixer.music.load("Alarms/taunt.wav")
                 mixer.music.play()
 
             elif label == 'Gun':
                 mixer.init()
-                mixer.music.load("CantinaBand60.wav")
+                mixer.music.load("Alarms/CantinaBand60.wav")
                 mixer.music.play()
 
     img = cv2.resize(img, (800, 600))

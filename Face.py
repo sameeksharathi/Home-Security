@@ -5,7 +5,7 @@ import os
 import face_recognition
 from pygame import mixer
 
-face_detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+face_detector = cv2.CascadeClassifier('Files/haarcascade_frontalface_default.xml')
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 
 
@@ -15,7 +15,7 @@ def Dataset():
     cam.set(4, 480)  # set video height
 
     # For each person, enter one numeric face id
-    face_id = input('\n enter user id end press enter ')
+    face_id = input('\n Enter your Name and press ENTER ')
 
     print("\nInitializing face capture. Look the camera and wait ...")
     # Initialize individual sampling face count
@@ -101,7 +101,9 @@ def main():
         # img_numpy = np.array(PIL_img, 'uint8')
 
         temp_img = face_recognition.load_image_file(imagePath)
+
         temp_face_encoding = face_recognition.face_encodings(temp_img)[0]
+        # print(temp_face_encoding)
         known_face_encodings.append(temp_face_encoding)
         id1 = os.path.split(imagePath)[-1].split(".")[0]
         known_face_names.append(id1.capitalize())
@@ -110,7 +112,7 @@ def main():
 
     # Initialize some variables
     face_locations = []
-    face_encodings = []
+    # face_encodings = []
     face_names = []
     process_this_frame = True
 
@@ -148,11 +150,11 @@ def main():
                     name = known_face_names[best_match_index]
                     if name == "Unknown":
                         mixer.init()
-                        mixer.music.load("taunt.wav")
+                        mixer.music.load("Alarms/taunt.wav")
                         mixer.music.play()
                     if name != "Unknown":
                         mixer.init()
-                        mixer.music.load("alarm.wav")
+                        mixer.music.load("Alarms/alarm.wav")
                         mixer.music.play()
 
                 face_names.append(name)
@@ -187,7 +189,7 @@ def main():
     cv2.destroyAllWindows()
 
 
-Dataset()
-faces, ids = getImagesAndLabels('dataset')
-print(ids)
+# Dataset()
+# faces, ids = getImagesAndLabels('dataset')
+# print(ids)
 main()
