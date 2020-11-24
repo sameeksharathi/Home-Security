@@ -153,11 +153,11 @@ def Face_Recognition():
                     name = known_face_names[best_match_index]
                     if name == "Unknown":
                         mixer.init()
-                        mixer.music.load("Alarms/Unknown.mpeg")
+                        mixer.music.load("Alarms/Unknown.wav")
                         mixer.music.play()
                     if name != "Unknown":
                         mixer.init()
-                        mixer.music.load("Alarms/Known.mpeg")
+                        mixer.music.load("Alarms/Known.wav")
                         mixer.music.play()
 
                 face_names.append(name)
@@ -250,17 +250,17 @@ def draw_labels(boxes, confs, colors, class_ids, classes, img):
             cv2.putText(img, label, (x, y - 5), font, 1, color, 1)
             if label == 'Fire':
                 mixer.init()
-                mixer.music.load("Alarms/Fire.mpeg")
+                mixer.music.load("Alarms/Fire.wav")
                 mixer.music.play()
 
             elif label == 'Rifle':
                 mixer.init()
-                mixer.music.load("Alarms/Rifle.mpeg")
+                mixer.music.load("Alarms/Rifle.wav")
                 mixer.music.play()
 
             elif label == 'Gun':
                 mixer.init()
-                mixer.music.load("Alarms/Gun.mpeg")
+                mixer.music.load("Alarms/Gun.wav")
                 mixer.music.play()
 
     img = cv2.resize(img, (800, 600))
