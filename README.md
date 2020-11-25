@@ -37,6 +37,6 @@ Home security is the future, and with the help of the open-source community and 
 `pip install pillow`
 
 
-## Implementation
+
 
 
