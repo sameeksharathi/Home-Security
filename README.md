@@ -35,3 +35,8 @@ Home security is the future, and with the help of the open-source community and 
 
 #### PIL
 `pip install pillow`
+
+
+## Implementation
+
+
