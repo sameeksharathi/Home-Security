@@ -11,7 +11,6 @@ recognizer = cv2.face.LBPHFaceRecognizer_create()
 
 
 def Dataset():
-
     cam = cv2.VideoCapture(0)
     cam.set(3, 640)  # set video width
     cam.set(4, 480)  # set video height
@@ -19,7 +18,7 @@ def Dataset():
     # For each person, enter one numeric face id
     face_id = input('\n Enter your name and press ENTER \n')
 
-    print("\nInitializing face capture. Look the camera and wait ... \n")
+    print("\nInitializing face capture. Look the camera and wait ...")
     # Initialize individual sampling face count
     count = 0
 
@@ -35,7 +34,7 @@ def Dataset():
             count += 1
 
             # Save the captured image into the datasets folder
-            cv2.imwrite("FaceDataset/" + str(face_id) + ".jpg \n", gray[y:y + h, x:x + w])
+            cv2.imwrite("FaceDataset/" + str(face_id) + ".jpg", gray[y:y + h, x:x + w])
 
             cv2.imshow('image', img)
 
@@ -46,7 +45,7 @@ def Dataset():
             break
 
     # Do a bit of cleanup
-    print("\n [INFO] Exiting Program and cleanup stuff \n")
+    print("\n [INFO] Exiting Program and cleanup stuff")
     cam.release()
     cv2.destroyAllWindows()
 
@@ -72,26 +71,10 @@ def getImagesAndLabels(path):
     return faceSamples, ids
 
 
+
 def Face_Recognition():
     cap = cv2.VideoCapture(0)
 
-    # Load a sample picture and learn how to recognize it.
-    # riya_image = face_recognition.load_image_file("dataset/Riya.jpg")
-    # riya_face_encoding = face_recognition.face_encodings(riya_image)[0]
-    # #
-    # # # Load a second sample picture and learn how to recognize it.
-    # sam_image = face_recognition.load_image_file("dataset/Trump.jpg")
-    # sam_face_encoding = face_recognition.face_encodings(sam_image)[0]
-    # temp_image = face_recognition.load_image_file(getImagesAndLabels('dataset'))
-    # temp_face_encoding = face_recognition.face_encodings(temp_image)[0]
-    # frame, id = getImagesAndLabels('dataset')
-    # known_face_encodings = []
-    # known_face_names = []
-    # for i in id:
-    #     temp_img = face_recognition.load_image_file(i)
-    #     temp_face_encoding = face_recognition.face_encodings(temp_img)[0]
-    #     known_face_encodings.append(temp_face_encoding)
-    #     known_face_names.append(i.capitalize())
     model, classes, colors, output_layers = load_yolo()
     known_face_encodings = []
     known_face_names = []
@@ -151,14 +134,17 @@ def Face_Recognition():
                 best_match_index = np.argmin(face_distances)
                 if matches[best_match_index]:
                     name = known_face_names[best_match_index]
-                    if name == "Unknown":
-                        mixer.init()
-                        mixer.music.load("Alarms/Unknown.wav")
-                        mixer.music.play()
+
                     if name != "Unknown":
                         mixer.init()
                         mixer.music.load("Alarms/Known.wav")
                         mixer.music.play()
+
+
+                if name == "Unknown":
+                    mixer.init()
+                    mixer.music.load("Alarms/Unknown.wav")
+                    mixer.music.play()
 
                 face_names.append(name)
 
@@ -263,14 +249,15 @@ def draw_labels(boxes, confs, colors, class_ids, classes, img):
                 mixer.music.load("Alarms/Gun.wav")
                 mixer.music.play()
 
-    img = cv2.resize(img, (800, 600))
 
 
 print('---- Starting Web Cam Home Security ----')
+
 ans = input("Do you want to add new face? [y/n]: \n")
+
 if ans.lower() == 'y':
     Dataset()
-    faces, ids = getImagesAndLabels('FaceDataset')
+    faces, ids = getImagesAndLabels('FaceDataset/')
     ans1 = input("Do you want to check if your face is saved or not? [y/n]: \n")
     if ans1.lower() == 'y':
         Face_Recognition()
