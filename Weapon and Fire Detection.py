@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import argparse
 from pygame import mixer
-#
+
 # parser = argparse.ArgumentParser()
 # args, unknown = parser.parse_known_args()
 
@@ -61,17 +61,17 @@ def draw_labels(boxes, confs, colors, class_ids, classes, img):
             cv2.putText(img, label, (x, y - 5), font, 1, color, 1)
             if label == 'Fire':
                 mixer.init()
-                mixer.music.load("Alarms/Fire.mpeg")
+                mixer.music.load("Alarms/Fire.wav")
                 mixer.music.play()
 
             elif label == 'Rifle':
                 mixer.init()
-                mixer.music.load("Alarms/Rifle.mpeg")
+                mixer.music.load("Alarms/Rifle.wav")
                 mixer.music.play()
 
             elif label == 'Gun':
                 mixer.init()
-                mixer.music.load("Alarms/Gun.mpeg")
+                mixer.music.load("Alarms/Gun.wav")
                 mixer.music.play()
 
     img = cv2.resize(img, (800, 600))
@@ -89,7 +89,7 @@ def webcam_detect():
         boxes, confs, class_ids = get_box_dimensions(outputs, height, width)
         draw_labels(boxes, confs, colors, class_ids, classes, frame)
         key = cv2.waitKey(1)
-        if key == ord('q'):
+        if key == 27:
             break
     cap.release()
 
