@@ -5,7 +5,7 @@ import os
 import face_recognition
 from pygame import mixer
 
-face_detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+face_detector = cv2.CascadeClassifier('Files/haarcascade_frontalface_default.xml')
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 
 
@@ -15,7 +15,7 @@ def Dataset():
     cam.set(4, 480)  # set video height
 
     # For each person, enter one numeric face id
-    face_id = input('\n enter user id end press enter ')
+    face_id = input('\n Enter your name and press ENTER \n')
 
     print("\nInitializing face capture. Look the camera and wait ...")
     # Initialize individual sampling face count
@@ -33,7 +33,7 @@ def Dataset():
             count += 1
 
             # Save the captured image into the datasets folder
-            cv2.imwrite("dataset/" + str(face_id) + ".jpg", gray[y:y + h, x:x + w])
+            cv2.imwrite("FaceDataset/" + str(face_id) + ".jpg", gray[y:y + h, x:x + w])
 
             cv2.imshow('image', img)
 
@@ -50,7 +50,7 @@ def Dataset():
 
 
 def getImagesAndLabels(path):
-    path = 'dataset'
+    path = 'FaceDataset/'
     imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
     faceSamples = []
     ids = []
@@ -94,7 +94,7 @@ def main():
     known_face_encodings = []
     known_face_names = []
 
-    path = 'dataset/'
+    path = 'FaceDataset/'
     imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
     for imagePath in imagePaths:
         # PIL_img = Image.open(imagePath).convert('L')  # convert it to grayscale
@@ -148,11 +148,11 @@ def main():
                     name = known_face_names[best_match_index]
                     if name == "Unknown":
                         mixer.init()
-                        mixer.music.load("Alarms/Unknown.mpeg")
+                        mixer.music.load("Alarms/Unknown.wav")
                         mixer.music.play()
                     if name != "Unknown":
                         mixer.init()
-                        mixer.music.load("Alarms/Known.mpeg")
+                        mixer.music.load("Alarms/Known.wav")
                         mixer.music.play()
 
                 face_names.append(name)
@@ -188,6 +188,6 @@ def main():
 
 
 Dataset()
-faces, ids = getImagesAndLabels('dataset')
+faces, ids = getImagesAndLabels('FaceDataset/')
 print(ids)
 main()
